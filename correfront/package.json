@@ -1,0 +1,50 @@
+{
+  "name": "correspondecia",
+  "version": "0.0.1",
+  "description": "A Quasar Framework app",
+  "productName": "Correspondencia",
+  "author": "adimerpaul <adimer101@gmail.com>",
+  "private": true,
+  "scripts": {
+    "lint": "eslint --ext .js,.vue ./",
+    "test": "echo \"No test specified\" && exit 0"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.0.0",
+    "axios": "^0.21.1",
+    "core-js": "^3.6.5",
+    "datatables.net-buttons-dt": "^2.0.1",
+    "datatables.net-dt": "^1.11.3",
+    "jquery": "^3.6.0",
+    "jspdf": "^2.4.0",
+    "jszip": "^3.7.1",
+    "pdfmake": "^0.2.2",
+    "quasar": "^2.0.0",
+    "timeago.js": "^4.0.2",
+    "vuex": "^4.0.1"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.13.14",
+    "@quasar/app": "^3.0.0",
+    "eslint": "^7.14.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-vue": "^7.0.0",
+    "eslint-webpack-plugin": "^2.4.0"
+  },
+  "browserslist": [
+    "last 10 Chrome versions",
+    "last 10 Firefox versions",
+    "last 4 Edge versions",
+    "last 7 Safari versions",
+    "last 8 Android versions",
+    "last 8 ChromeAndroid versions",
+    "last 8 FirefoxAndroid versions",
+    "last 10 iOS versions",
+    "last 5 Opera versions"
+  ],
+  "engines": {
+    "node": ">= 12.22.1",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  }
+}

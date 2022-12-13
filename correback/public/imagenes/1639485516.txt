@@ -1,0 +1,12 @@
+historial prestamos 
+	-tabla filtrar datos
+historial de ventas
+	-tabla filtrar datos
+	-parametro de fechas
+
+menu = historial rutas
+ -solo ventas q tengan ruta
+
+reporte de ventas y gastos 
+rep ventas 
+-campo ruta s/n
