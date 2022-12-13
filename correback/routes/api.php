@@ -23,7 +23,7 @@ Route::post('/register',[\App\Http\Controllers\UserController::class,'register']
 Route::resource('/unit',\App\Http\Controllers\UnitController::class);
 Route::get('/todos',[\App\Http\Controllers\MailController::class,'todos']);
 //Route::resource('/log',\App\Http\Controllers\LogController::class);
-Route::group(['middleware'=>'auth:sanctum'],function (){
+Route::group(['middleware'=>['cors','auth:sanctum']],function (){
     Route::post('/logout',[\App\Http\Controllers\UserController::class,'logout']);
     Route::post('/me',[\App\Http\Controllers\UserController::class,'me']);
     Route::put('/pass/{user}',[\App\Http\Controllers\UserController::class,'pass']);
