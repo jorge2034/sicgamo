@@ -138,13 +138,13 @@ class MailController extends Controller
         else{
             $logreturn =Log::where('unit_id',$request->user()->unit_id)
             ->where('user_id2',$request->user()->id)
-            ->whereIn('id', function($query) use($request){
-                // $query->selectRaw('max(id)')
-                $query->selectRaw('id')
-                ->from('logs')
-                ->where('user_id2',$request->user()->id)
-                ->whereNull('deleted_at');
-            })
+            // ->whereIn('id', function($query) use($request){
+            //     // $query->selectRaw('max(id)')
+            //     $query->selectRaw('id')
+            //     ->from('logs')
+            //     ->where('user_id2',$request->user()->id)
+            //     ->whereNull('deleted_at');
+            // })
             ->whereIn('estado',$estado)
             ->with('user')
             ->with('user2')
@@ -257,7 +257,7 @@ class MailController extends Controller
             $codigointerno=1;
         }else{
 //            $codigointerno=intval(Mail::where('unit_id',$request->user()->unit_id)->max("codinterno"))+1;
-            $codigointerno=intval(Mail::where('unit_id',$request->user()->unit_id)->get()->count())+1;
+            $codigointerno=intval(Mail::whereYear('created_at',date('Y'))->where('unit_id',$request->user()->unit_id)->get()->count())+1;
             //return $codigointerno;
         }
 //        return intval(Mail::where('unit_id',$request->user()->unit_id)->get()->count());

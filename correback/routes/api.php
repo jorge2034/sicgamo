@@ -22,6 +22,7 @@ Route::post('/login',[\App\Http\Controllers\UserController::class,'login']);
 Route::post('/register',[\App\Http\Controllers\UserController::class,'register']);
 Route::resource('/unit',\App\Http\Controllers\UnitController::class);
 Route::get('/todos',[\App\Http\Controllers\MailController::class,'todos']);
+Route::get('users/export/', [\App\Http\Controllers\UserController::class, 'exportUser']);
 //Route::resource('/log',\App\Http\Controllers\LogController::class);
 Route::group(['middleware'=>'auth:sanctum'],function (){
     Route::post('/logout',[\App\Http\Controllers\UserController::class,'logout']);
@@ -58,6 +59,7 @@ Route::group(['middleware'=>'auth:sanctum'],function (){
     Route::post('/impblanco/{id}',[\App\Http\Controllers\MailController::class,'impblanco']);
     Route::get('/destinatarios',[\App\Http\Controllers\MailController::class,'destinatarios']);
     Route::post('/buscarhijos',[\App\Http\Controllers\MailController::class,'buscarhijosparacancelarderivacion']);
+    Route::get('/reporteremitidosexcel',[\App\Http\Controllers\LogController::class,'exportRemitidos']);
 });
 Route::get('/mail/{mail}/{user}',[\App\Http\Controllers\MailController::class,'show2']);
 

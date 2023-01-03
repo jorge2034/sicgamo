@@ -6,6 +6,8 @@ use App\Models\Log;
 use App\Models\Mail;
 use App\Models\Asigna;
 use Illuminate\Http\Request;
+use App\Exports\RemitidosExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class LogController extends Controller
 {
@@ -106,5 +108,9 @@ class LogController extends Controller
     public function destroy(Log $log)
     {
         //
+    }
+
+    public function exportRemitidos(Request $request){
+        return (new RemitidosExport)->forDate($request->fecha1,$request->fecha2,$request->unidad)->download('Correspondencia.xls');
     }
 }

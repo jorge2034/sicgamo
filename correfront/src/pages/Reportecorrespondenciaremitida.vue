@@ -59,6 +59,7 @@
       <template v-slot:top-right>
 
         <q-btn @click="impresion" icon="print" label="imprimir" color="positive" />
+        <q-btn @click="descargarexcel" icon="table_view" label="Descargar excel " color="positive"></q-btn>
         <q-input outlined dense  v-model="filter" placeholder="Buscar">
           <template v-slot:append>
             <q-icon name="search" />
@@ -168,6 +169,22 @@ export default {
         console.log("datos: ",this.datos)
         // this.datos=res.data
       })
+    },
+    descargarexcel() {
+      this.$axios.get(process.env.API+`/reporteremitidosexcel?unidad=${this.$store.state.login.user.unit.id}&fecha1=${this.fecha1}&fecha2=${this.fecha2}`,
+       {responseType: 'blob'})
+   .then((response) => {
+        let fileUrl = window.URL.createObjectURL(response.data);
+        let fileLink = document.createElement('a');
+
+        fileLink.href = fileUrl;
+        fileLink.setAttribute('download', `correspondencia_${ this.$store.state.login.user.unit.nombre } ${new Date().toLocaleDateString()}.xls`);
+        document.body.appendChild(fileLink)
+
+        fileLink.click();
+    }).catch(error => {
+        console.log(error.response.data)
+    })
     },
     impresion(){
       // console.log(l)

@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -104,5 +106,9 @@ class UserController extends Controller
     public function me(Request $request){
         $user=User::where('id',$request->user()->id)->with('unit')->with('permisos')->firstOrFail();
         return $user;
+    }
+    public function exportUser()
+    {
+        return Excel::download(new UsersExport, 'users.xlsx');
     }
 }

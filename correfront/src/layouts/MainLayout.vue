@@ -165,7 +165,7 @@
               <q-icon name="print" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>Reporte Correpondencia PENDIENTE</q-item-label>
+              <q-item-label>Correpondencia PENDIENTE</q-item-label>
               <q-item-label caption>
                 correspondencia Pendiente
               </q-item-label>
@@ -176,7 +176,7 @@
               <q-icon name="print" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>Reporte Correpondencia creada</q-item-label>
+              <q-item-label>Correpondencia creada</q-item-label>
               <q-item-label caption>
                 Reporte de correspondencia
               </q-item-label>
@@ -188,7 +188,7 @@
               <q-icon name="print" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>Reporte Correpondencia Remitida</q-item-label>
+              <q-item-label>Correpondencia Remitida</q-item-label>
               <q-item-label caption>
                 Reporte de correspondencia
               </q-item-label>
@@ -201,7 +201,7 @@
               <q-icon name="print" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>Reporte Correpondencia Recibida</q-item-label>
+              <q-item-label>Correpondencia Recibida</q-item-label>
               <q-item-label caption>
                 Reporte de correspondencia
               </q-item-label>
@@ -212,12 +212,25 @@
               <q-icon name="print" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>Reporte Correpondencia Archivada</q-item-label>
+              <q-item-label>Correpondencia Archivada</q-item-label>
               <q-item-label caption>
                 Reporte de correspondencia
               </q-item-label>
             </q-item-section>
           </q-item>
+
+          <q-item dense v-if="$store.state.login.boolseguimiento" class="q-pl-xl" clickable to="/reporteremitidosexcel">
+            <q-item-section avatar>
+              <q-icon name="print" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Correpondencia general por unidad</q-item-label>
+              <q-item-label caption>
+                Reporte por unidad
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+
         </q-expansion-item>
           <q-item v-if="$store.state.login.boolmisrecepciones" clickable to="/misrecepciones">
             <q-item-section avatar>
