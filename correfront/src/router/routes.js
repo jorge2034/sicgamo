@@ -12,6 +12,7 @@ import Reportecorrespondenciaremitida from "pages/Reportecorrespondenciaremitida
 import Reportecorrespondenciarecibida from "pages/Reportecorrespondenciarecibida";
 import Reportecorrespondenciapendiente from "pages/Reportecorrespondenciapendiente";
 import Reportecorrespondenciaarchivado from "pages/Reportecorrespondenciaarchivado.vue";
+import Reporteexcelporunidad from "pages/Reporteexcelporunidad.vue";
 
 const routes = [
   {
@@ -37,6 +38,7 @@ const routes = [
       { path: '/reportecorrespondenciarecibida', component: Reportecorrespondenciarecibida,meta: {requiresAuth: true,} },
       { path: '/reportecorrespondenciapendiente', component: Reportecorrespondenciapendiente,meta: {requiresAuth: true,} },
       { path: '/reportecorrespondenciaarchivada', component: Reportecorrespondenciaarchivado,meta: {requiresAuth: true,} },
+      { path: '/reporteremitidosexcel', component: Reporteexcelporunidad,meta: {requiresAuth: true,} },
     ]
   },
   {

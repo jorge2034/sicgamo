@@ -219,7 +219,7 @@
             </q-item-section>
           </q-item>
 
-          <q-item dense v-if="$store.state.login.boolseguimiento" class="q-pl-xl" clickable to="/reporteremitidosexcel">
+          <q-item dense v-if="$store.state.login.boolreporteexcel" class="q-pl-xl" clickable to="/reporteremitidosexcel">
             <q-item-section avatar>
               <q-icon name="print" />
             </q-item-section>

@@ -500,7 +500,7 @@ export default {
       codigo:'',
       dest:[],
       contadorcreadosignorados:0,
-      secretarios:[172,292,173,36,190,121,349,169,106,42,177,217],
+      secretarios:[172,292,173,36,190,121,349,169,106,42,177,217,225],
       secretariageneral:[172,32],
       optionstipodocs:['Notas','Memorandum','Hoja de ruta'],
       tipodoc:null,
@@ -1733,7 +1733,12 @@ this.$q.loading.hide()
             doc.setFontSize(8);
             doc.setFont('times', 'normal');
             doc.text('Seguimiento en: www.gamo.gob.bo',1.2,0.6)
-            window.open(doc.output('bloburl'), '_blank');
+
+            // Set the document to automatically print via JS
+            doc.autoPrint();
+            doc.output('dataurlnewwindow');
+            console.log("IMPRESION DE TICKET")
+            // window.open(doc.output('bloburl'), '_blank');
 
 
           this.$q.loading.hide()
@@ -2088,7 +2093,7 @@ this.$q.loading.hide()
             this.misremitentes()
             this.misdestinatarios()
             this.crear=false
-           // this.impresionticket(res.data)
+            this.impresionticket(res.data)
 
             // this.$q.loading.hide()
           }).catch(err=>{
@@ -2118,7 +2123,7 @@ this.$q.loading.hide()
             this.misremitentes()
             this.misdestinatarios()
             this.crear=false
-         //   this.impresionticket(res.data)
+            this.impresionticket(res.data)
             // this.$q.loading.hide()
           }).catch(err=>{
             this.$q.loading.hide()

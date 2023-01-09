@@ -9,6 +9,7 @@ export default function () {
     boolseguimiento:false,
     booldesignacion:false,
     boolmisrecepciones:false,
+    boolreporteexcel:false,
     // inventario:false,
     // ventadetalle:false,
     // historialventadetalle:false,
