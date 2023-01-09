@@ -2,7 +2,7 @@ import Login from "pages/Login";
 import Recepcion from "pages/Recepcion";
 import User from "pages/User";
 import Seguimiento from "pages/Seguimiento";
-// import Asignacion from "pages/Asignacion";
+import Asignacion from "pages/Asignacion";
 import Misrecepciones from "pages/Misrecepciones";
 import MainLayout from "layouts/MainLayout";
 import Consulta from "pages/Consulta";
@@ -25,7 +25,8 @@ const routes = [
       { path: '/seguimiento', component: Seguimiento,meta: {requiresAuth: true,} },
       {
         path: '/asignacion/:tipoasignacion',
-        component: () => import(/* webpackChunkName: "misasignaciones" */'src/pages/asignacion.vue'),
+        // component: () => import(/* webpackChunkName: "misasignaciones" */'src/pages/asignacion.vue'),
+        component:Asignacion,
         meta: {requiresAuth: true},
         props: (route)=> {
           const {tipoasignacion} = route.params
