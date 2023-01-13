@@ -48,7 +48,7 @@ class MailController extends Controller
     public function buscar(Request $request)
     {
 //        return Mail::where('unit_id',$request->user()->unit_id)->get();
-        return Mail::where('codigo',$request->codigo)->with('logs')->get();
+        return Mail::withTrashed()->where('codigo',$request->codigo)->with('logs')->get();
     }
 
     public function buscarhijosparacancelarderivacion(Request $request){
@@ -252,7 +252,7 @@ class MailController extends Controller
      */
     public function store(Request $request)
     {
-//        return $request;
+       // return $request;
         if (Mail::whereYear('created_at',date('Y'))->where('unit_id',$request->user()->unit_id)->max("codinterno")==''){
             $codigointerno=1;
         }else{
