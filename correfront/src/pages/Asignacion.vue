@@ -54,6 +54,7 @@
                   <div class="col-sm-8 col-12 q-pa-xs"><q-input style="text-transform: uppercase" dense  label="Referencia" v-model="dato.ref" outlined/></div>
                   <div class="col-sm-2 col-12 q-pa-xs"><q-input dense label="Fecha de correspondencia" v-model="dato.fecha" type="date" outlined/></div>
                   <div class="col-sm-2 col-12 q-pa-xs"><q-input dense label="Fojas" v-model="dato.folio"  outlined /></div>
+                  <div v-if="secretariageneral.includes($store.state.login.user.id)" class="col-sm-2 col-12 q-pa-xs"><q-checkbox v-model="internosg" label="Interno SG" color="teal" /></div>
 <!--                  <div class="col-sm-2 col-12 q-pa-xs"><q-input dense label="Cod externo" v-model="dato.codexterno" outlined /></div>-->
                   <div class="col-sm-2 col-12 q-pa-xs flex flex-center">
                     <q-btn type="submit" color="primary" icon="add_circle" label="Registrar" v-if="dato.id==undefined || dato.id==''"/>
@@ -500,12 +501,13 @@ export default {
       codigo:'',
       dest:[],
       contadorcreadosignorados:0,
-      secretarios:[172,292,173,36,190,121,349,169,106,42,177,217,225],
+      secretarios:[172,292,678,673,671,121,672,169,106,42,177,217,679],
       secretariageneral:[172,32],
       optionstipodocs:['Notas','Memorandum','Hoja de ruta'],
       tipodoc:null,
       derivaciones: [],
       dialogayudaremitir:false,
+      internosg:false,
       columns:[
         {name:'opciones',field:'opciones',label:'opciones',align:'right'},
         {name:'codigo',field:'codigo',label:'codigo/CITE',align:'left'},
@@ -2077,6 +2079,7 @@ this.$q.loading.hide()
         this.dato.cargo=this.cargo
         this.dato.institucion=this.institucion
         this.dato.codigo=this.codigo
+        this.dato.internosg=this.internosg
         if(this.dato.id==undefined || this.dato.id==''){
           // console.log('new')
           this.$q.loading.show()
@@ -2088,6 +2091,7 @@ this.$q.loading.hide()
             this.cargo=''
             this.institucion=''
             this.filter=''
+            this.internosg=false
             this.codigo= res.data.codigo
             this.misdatos()
             this.misremitentes()
