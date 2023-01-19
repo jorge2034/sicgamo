@@ -502,7 +502,7 @@ export default {
       dest:[],
       contadorcreadosignorados:0,
       secretarios:[172,292,678,673,671,121,672,169,106,42,677,217,679],
-      secretariageneral:[172,32],
+      secretariageneral:[172,32,106],
       optionstipodocs:['Notas','Memorandum','Hoja de ruta'],
       tipodoc:null,
       derivaciones: [],
