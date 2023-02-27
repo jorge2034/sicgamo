@@ -74,10 +74,85 @@ class MailController extends Controller
         return false; //"no se puede cancelar";
        }
     }
+    public function micorreobs(Request $request)
+    {
+      // return $request;
+        $estado = [];
+        switch($request->tipoasignacion){
+            case 'todo': $estado = ['ACEPTADO','EN PROCESO','REMITIDO','ARCHIVADO']; break;
+            case 'recibidos': $estado = ['EN PROCESO']; break;
+            case 'pendientes': $estado = ['ACEPTADO']; break;
+            case 'enviados': $estado = ['REMITIDO']; break;
+            case 'archivados': $estado = ['ARCHIVADO']; break;
+        }
+
+        //se ejecuta cuando filtramos desde el buscardor de la tabla en mis_asignaciones
+        if($request->filter2){
+            // $mailIds = Log::select('mail_id')->where('observacion','like','%'.$request->filter.'%')
+            // ->whereNull('deleted_at')->get();
+
+            $mail_id = Mail::select(['id'])
+            // ->whereIN('id',$mailIds)
+            ->orWhere('codigo','like','%'.$request->filter.'%')
+            ->orWhere('citecontrol','like','%'.$request->filter.'%')
+            ->orWhere('remitente','like','%'.$request->filter.'%')
+            ->orWhere('ref','like','%'.$request->filter.'%')
+            ->get();
+            $resultmail=[];
+            foreach($mail_id as $mail){
+                  array_push($resultmail,$mail->id);
+            }
+             //return $resultmail;
+             $logreturn = Log::where('user_id2',$request->user()->id)
+             ->where('unit_id',$request->user()->unit_id)
+             ->whereIn('id', function($query) use($resultmail,$request){
+                 //$query->selectRaw('max(id)')
+                 $query->selectRaw('id')
+                 ->from('logs')
+                 ->whereIn('mail_id',$resultmail)
+                 ->where('user_id2',$request->user()->id)
+                 ->whereNull('deleted_at')
+                 ->orWhere('observacion','like','%'.$request->filter2.'%');
+                 //->groupBy('mail_id');
+             })
+             ->whereIn('estado',$estado)
+             ->with('user')
+             ->with('user2')
+             ->with(['mail' => function ($query){
+                 $query->with('logs');
+             }])
+             ->orderBy('log_id','desc')
+             ->groupBy('mail_id','user_id','user_id2','log_id')
+             ->paginate($request->rowsPerPage);
+            return $logreturn;
+        }
+        else{
+            $logreturn =Log::where('unit_id',$request->user()->unit_id)
+            ->where('user_id2',$request->user()->id)
+            // ->whereIn('id', function($query) use($request){
+            //     // $query->selectRaw('max(id)')
+            //     $query->selectRaw('id')
+            //     ->from('logs')
+            //     ->where('user_id2',$request->user()->id)
+            //     ->whereNull('deleted_at');
+            // })
+            ->whereIn('estado',$estado)
+            ->with('user')
+            ->with('user2')
+            ->with(['mail' => function ($query) {
+                     $query->with('logs');
+                 }])
+            ->groupBy('mail_id','user_id','user_id2','log_id')
+            ->orderBy('id','desc')
+            ->paginate($request->rowsPerPage);
+            return $logreturn;
+        }
+
+    }
 
     public function micorre(Request $request)
     {
-
+      // return $request;
         $estado = [];
         switch($request->tipoasignacion){
             case 'todo': $estado = ['ACEPTADO','EN PROCESO','REMITIDO','ARCHIVADO']; break;
@@ -112,12 +187,14 @@ class MailController extends Controller
                  ->from('logs')
                  ->whereIn('mail_id',$resultmail)
                  ->where('user_id2',$request->user()->id)
-                 ->whereNull('deleted_at')
-                 ->orWhere('observacion','like','%'.$request->filter.'%');
+                 ->whereNull('deleted_at');
+                //  ->orWhere('observacion','like','%'.$request->filter.'%');
                  //->groupBy('mail_id');
              })
              //->whereIn('estado',isset($estado)?[$estado]:['ACEPTADO','EN PROCESO','REMITIDO','ARCHIVADO'])
              ->whereIn('estado',$estado)
+            //  ->orWhere('accion','like','%'.$request->filter.'%')
+            //  ->orWhere('observacion','like','%'.$request->filter.'%')
              ->with('user')
              ->with('user2')
              ->with(['mail' => function ($query){
@@ -139,7 +216,7 @@ class MailController extends Controller
             $logreturn =Log::where('unit_id',$request->user()->unit_id)
             ->where('user_id2',$request->user()->id)
             // ->whereIn('id', function($query) use($request){
-            //     // $query->selectRaw('max(id)')
+            //      $query->selectRaw('max(id)')
             //     $query->selectRaw('id')
             //     ->from('logs')
             //     ->where('user_id2',$request->user()->id)
