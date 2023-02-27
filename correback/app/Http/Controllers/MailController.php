@@ -169,7 +169,7 @@ class MailController extends Controller
 
             $mail_id = Mail::select(['id'])
             // ->whereIN('id',$mailIds)
-            ->orWhere('codigo','like','%'.$request->filter.'%')
+            ->where('codigo','like','%'.$request->filter.'%')
             ->orWhere('citecontrol','like','%'.$request->filter.'%')
             ->orWhere('remitente','like','%'.$request->filter.'%')
             ->orWhere('ref','like','%'.$request->filter.'%')
@@ -201,7 +201,7 @@ class MailController extends Controller
                  $query->with('logs');
              }])
              ->orderBy('log_id','desc')
-             ->groupBy('mail_id','user_id','user_id2','log_id')
+             //->groupBy('mail_id','user_id','user_id2')
              ->paginate($request->rowsPerPage);
             return $logreturn;
 
@@ -228,7 +228,7 @@ class MailController extends Controller
             ->with(['mail' => function ($query) {
                      $query->with('logs');
                  }])
-            ->groupBy('mail_id','user_id','user_id2','log_id')
+            //->groupBy('mail_id','user_id','user_id2','log_id')
             ->orderBy('id','desc')
             ->paginate($request->rowsPerPage);
             return $logreturn;
