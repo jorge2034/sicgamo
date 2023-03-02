@@ -92,11 +92,20 @@
                 <q-icon name="search" />
               </template>
             </q-input>
+            <q-checkbox v-model="busquedaextra" label="Busqueda avanzada" />
+            <q-input v-if="busquedaextra" color="teal-9" outlined bottom-slots dense debounce="300" v-model="filter2" @keyup.enter="buscarobservacion" placeholder="Buscar por observacion"  hint="Presiona enter para buscar">
+              <template v-slot:append>
+                <q-icon v-if="filter2 !== ''" name="close" @click="actualizar2" class="cursor-pointer" />
+                <q-icon name="search" />
+              </template>
+            </q-input>
           </template>
           <template v-slot:body-cell-documento="props">
               <q-td key="ref" :props="props"  @click="mostrar(props.row)">
-                  {{ props.row.ref.substring(0,20) }} <q-icon name="visibility" color="info"/>
+                  {{ props.row.ref.substring(0,20) }} <q-icon name="visibility" color="info"/><br>
+                  <q-badge v-if="props.row.observacion" color="teal-9" :label="'Observación: '+props.row.observacion"> </q-badge>
               </q-td>
+
           </template>
           <!-- opciones de impresion solo para secretaria general -->
           <template v-if="secretariageneral.includes($store.state.login.user.id)" v-slot:body-cell-logs="props">
@@ -109,7 +118,7 @@
                     <q-btn @click="impresioncondependenciassecretariageneral(l)" v-if="l.estado=='ACEPTADO' &&  secretarios.includes($store.state.login.user.id)" size="xs" icon="print" color="info" flat round/>
 
                     <q-badge v-if="props.row.id==l.id" color="blue-grey" :label="'->'+l.unit.nombre"> </q-badge>
-                    <template v-else>{{l.unit.nombre}}</template>
+                    <template v-else>{{l.unit.nombre}} </template>
 
                     <q-badge v-if="l.estado=='REMITIDO'" color="positive" :label="l.estado" />
                     <q-badge v-if="l.estado=='ACEPTADO'" color="info" :label="l.estado" />
@@ -166,7 +175,7 @@
           <template v-slot:body-cell-codigo="props">
               <q-td  :props="props">
               <strong> {{props.row.codigo}}</strong><br>
-                CITE: {{props.row.citecontrol}}
+                CITE: {{props.row.citecontrol}}<br>
 
               </q-td>
           </template>
@@ -481,6 +490,7 @@ export default {
       crear:false,
       miaccion:'',
       filter:'',
+      filter2:'',
       usuario:'',
       diaglosasignacion:false,
       dialogremitir:false,
@@ -535,6 +545,8 @@ export default {
         rowsNumber: 0
       },
       loading:false,
+      micorre:"",
+      busquedaextra:false
     }
   },
   computed:{
@@ -1912,10 +1924,15 @@ this.$q.loading.hide()
         this.filter=''
         this.misdatos()
     },
-    misdatos(page = 0,filter,rowsPerPage=10){
+    actualizar2(){
+        this.filter2=''
+        this.misdatos()
+    },
+    misdatos(page = 0,filter,rowsPerPage=10,filter2){
       //this.$q.loading.show()
       this.loading=true
-      this.$axios.get(process.env.API+'/micorre',{params:{page: page,filter:filter,rowsPerPage: rowsPerPage,tipoasignacion:this.tipoasignacion}}).then(res=>{
+
+      this.$axios.get(process.env.API+'/micorre',{params:{page: page,filter:filter,rowsPerPage: rowsPerPage,tipoasignacion:this.tipoasignacion,filter2:filter2}}).then(res=>{
           console.log('micorre:',res)
 
         // this.mails=res.data
@@ -2009,6 +2026,7 @@ this.$q.loading.hide()
             user2:r.user2.name,
             accion:r.mail.logs[1]!=undefined?r.mail.logs[1].accion:'',
             acciondoc:r.accion,
+            observacion:r.observacion,
             archivadodoc:r.archivado
           })
 
@@ -2021,15 +2039,20 @@ this.$q.loading.hide()
     },
     handleRequest(props){
         console.log('halderesquest: ',props)
+        this.busquedaextra=false
+        this.filter2=''
         if(props.pagination.rowsPerPage===0){
           props.pagination.rowsPerPage=this.pagination.rowsNumber
         }
         this.misdatos(props.pagination.page,props.filter,props.pagination.rowsPerPage)
     },
     buscar(){
-      //handleRequest()
       console.log('filter:',this.filter)
       this.misdatos(this.pagination.page,this.filter,this.pagination.rowsPerPage)
+    },
+    buscarobservacion(){
+      console.log('filter:',this.filter2)
+      this.misdatos(this.pagination.page,"",this.pagination.rowsPerPage,this.filter2)
     },
     anular(mail){
       this.$q.dialog({
@@ -2097,7 +2120,7 @@ this.$q.loading.hide()
             this.misremitentes()
             this.misdestinatarios()
             this.crear=false
-            this.impresionticket(res.data)
+            // this.impresionticket(res.data)
 
             // this.$q.loading.hide()
           }).catch(err=>{
@@ -2127,7 +2150,7 @@ this.$q.loading.hide()
             this.misremitentes()
             this.misdestinatarios()
             this.crear=false
-            this.impresionticket(res.data)
+            // this.impresionticket(res.data)
             // this.$q.loading.hide()
           }).catch(err=>{
             this.$q.loading.hide()
@@ -2189,6 +2212,6 @@ this.$q.loading.hide()
 }
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 
 </style>

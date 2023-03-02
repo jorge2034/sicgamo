@@ -152,7 +152,7 @@ class MailController extends Controller
 
     public function micorre(Request $request)
     {
-      // return $request;
+    //    return $request;
         $estado = [];
         switch($request->tipoasignacion){
             case 'todo': $estado = ['ACEPTADO','EN PROCESO','REMITIDO','ARCHIVADO']; break;
@@ -161,7 +161,21 @@ class MailController extends Controller
             case 'enviados': $estado = ['REMITIDO']; break;
             case 'archivados': $estado = ['ARCHIVADO']; break;
         }
-
+        if($request->filter2){
+             $logreturn = Log::where('user_id2',$request->user()->id)
+             ->where('unit_id',$request->user()->unit_id)
+             ->where('observacion','like','%'.$request->filter2.'%')
+             ->whereNull('deleted_at')
+             ->whereIn('estado',$estado)
+             ->with('user')
+             ->with('user2')
+             ->with(['mail' => function ($query){
+                 $query->with('logs');
+             }])
+             ->orderBy('log_id','desc')
+             ->paginate($request->rowsPerPage);
+            return $logreturn;
+        }
         //se ejecuta cuando filtramos desde el buscardor de la tabla en mis_asignaciones
         if($request->filter){
             // $mailIds = Log::select('mail_id')->where('observacion','like','%'.$request->filter.'%')
