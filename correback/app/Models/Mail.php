@@ -43,6 +43,17 @@ class Mail extends Model
     public function logs(){
         return $this->hasMany(Log::class)->with('user')->with('user2')->with('unit');
     }
+    public function logseguimiento(){
+        return $this->hasMany(Log::class)
+        ->with(['user' => function ($query){
+            $query->withTrashed();
+        }])
+        ->with(['user2' => function ($query){
+            $query->withTrashed();
+        }])
+        ->with('unit');
+
+    }
     public function asignas(){
         return $this->hasMany(Asigna::class);
     }

@@ -37,7 +37,7 @@ class MailController extends Controller
         $mailIds = Log::select('mail_id')->where('observacion','like','%'.$request->codigo.'%')
         ->whereNull('deleted_at')->get();
 
-        return Mail::with('logs')
+        return Mail::with('logseguimiento')
         ->whereIN('id',$mailIds)
         ->orwhere('codigo','like','%'.$request->input('codigo').'%')
         ->orwhere('citecontrol','like','%'.$request->input('codigo').'%')
@@ -48,7 +48,7 @@ class MailController extends Controller
     public function buscar(Request $request)
     {
 //        return Mail::where('unit_id',$request->user()->unit_id)->get();
-        return Mail::withTrashed()->where('codigo',$request->codigo)->with('logs')->get();
+        return Mail::withTrashed()->where('codigo',$request->codigo)->with('logseguimiento')->get();
     }
 
     public function buscarhijosparacancelarderivacion(Request $request){

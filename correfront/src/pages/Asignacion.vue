@@ -130,7 +130,7 @@
                 <q-badge v-if="props.row.accion!=''" color="warning" :label="'Recibido de: '+props.row.user1"> </q-badge><br>
                 </div>
 
-                <q-btn color="positive" dense icon="add_circle_outline" label="REMITIR" @click="dialogremitir=true;mail=props.row; dest=[]" />
+                <q-btn v-if="remisiondirecta.includes($store.state.login.user.id)" color="positive" dense icon="add_circle_outline" label="REMITIR" @click="dialogremitir=true;mail=props.row; dest=[]" />
                 <q-btn @click="impresionextra(props.row)" v-if="props.row.estado!='ARCHIVADO'" class="q-px-lg" size="xs" label="Hoja de Ruta extra" icon="print" color="green-10" flat round/>
               </q-td>
           </template>
@@ -511,8 +511,9 @@ export default {
       codigo:'',
       dest:[],
       contadorcreadosignorados:0,
-      secretarios:[92,171,172,292,678,673,671,121,672,169,106,42,677,217,679,714],
-      secretariageneral:[172,32,106],
+      secretarios:[92,171,172,292,678,673,671,121,672,169,106,42,677,217,679,714,749],//pueden crear hoja de ruta antes de remitir
+      secretariageneral:[172,32,106,749],//podra imprimir varias hojas de ruja para varios destinatarios
+      remisiondirecta:[172,32,106],//remitir obligatoria
       optionstipodocs:['Notas','Memorandum','Hoja de ruta'],
       tipodoc:null,
       derivaciones: [],

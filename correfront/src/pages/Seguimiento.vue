@@ -36,7 +36,7 @@
       <q-banner dense class="bg-amber text-white">
         Datos de historial
       </q-banner>
-      <q-table dense :columns="columns" :rows="email.logs" :rows-per-page-options="[10,100,150,200,0]">
+      <q-table dense :columns="columns" :rows="email.logseguimiento" :rows-per-page-options="[10,100,150,200,0]">
         <template v-slot:body-cell-de="props">
           <q-td :props="props">
             <div class="text-caption"  v-if="props.row.user!=undefined">{{ props.row.user.name}}</div >
@@ -150,17 +150,22 @@ export default {
   },
   methods:{
     buscar(){
-      this.$q.loading.show()
-      this.email={}
-       console.log(this.codigo)
+      if(this.codigo?.codigo!=''){
+        this.$q.loading.show()
+        this.email={}
+       // console.log(this.codigo)
       this.$axios.post(process.env.API+'/buscar',{codigo:this.codigo.codigo}).then(res=>{
-         console.log(res.data)
+        console.log(res.data)
         if (res.data.length>0)
         this.email=res.data[0]
-        console.log('emial')
-        console.log(this.email)
+    //    console.log('emial')
+    //    console.log(this.email)
         this.$q.loading.hide()
       })
+    }
+    else{
+      console.log("ingrese el codigo")
+    }
     },
     todos(val){
       this.mails=[]
