@@ -99,7 +99,13 @@ class ReportecorrespondenciaController extends Controller
             ->whereDate('fecha','>=',$request->fecha1)
             ->whereDate('fecha','<=',$request->fecha2)
             ->where('tipodoc',$request->tipodoc)
-            ->with(['mail','user','unit','user2'])
+            ->with(['mail','unit'])
+            ->with(['user' => function ($query){
+                $query->withTrashed();
+            }])
+            ->with(['user2' => function ($query){
+                $query->withTrashed();
+            }])
             ->get();
         }
         else{
@@ -108,7 +114,13 @@ class ReportecorrespondenciaController extends Controller
             //->orWhere('user_id2',$request->user()->id)
             ->whereDate('fecha','>=',$request->fecha1)
             ->whereDate('fecha','<=',$request->fecha2)
-            ->with(['mail','user','unit','user2'])
+            ->with(['mail','unit'])
+            ->with(['user' => function ($query){
+                $query->withTrashed();
+            }])
+            ->with(['user2' => function ($query){
+                $query->withTrashed();
+            }])
             ->get();
         }
         return $remitidos;

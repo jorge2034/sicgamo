@@ -1060,11 +1060,11 @@ export default {
     },
     impresionextra(row){
        this.$q.dialog({
-        title:'Ingrese numero de página?',
-         message:'Numero de Pagina permitida (2, 3, 4)',
+        title:'Ingrese número de página?',
+         message:'Numero de Pagina permitidas (2, 3, 4, 5, 6, 7, 8, 9, 10)',
          prompt:{
            model:'',
-           isValid: val => val > 1 && val < 5, // << here is the magic
+           isValid: val => val > 1 && val < 11, // << here is the magic
            type:'text'
          },
         cancel:true,
@@ -1140,6 +1140,24 @@ export default {
           break;
         case 4:
               con=11;
+          break;
+        case 5:
+              con=15;
+          break;
+        case 6:
+              con=19;
+          break;
+        case 7:
+              con=23;
+          break;
+        case 8:
+              con=27;
+          break;
+        case 9:
+              con=31;
+          break;
+        case 10:
+              con=35;
           break;
        }
 

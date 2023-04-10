@@ -25,8 +25,8 @@ const routes = [
       { path: '/seguimiento', component: Seguimiento,meta: {requiresAuth: true,} },
       {
         path: '/asignacion/:tipoasignacion',
-        // component: () => import(/* webpackChunkName: "misasignaciones" */'src/pages/asignacion.vue'),
         component:Asignacion,
+        // component:Asignacion,
         meta: {requiresAuth: true},
         props: (route)=> {
           const {tipoasignacion} = route.params
