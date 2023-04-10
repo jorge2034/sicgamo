@@ -132,8 +132,11 @@ class ReportecorrespondenciaController extends Controller
                 ->whereIN('estado',['ACEPTADO','EN PROCESO'])
                 ->where('accion','<>','CREADO')
                 ->with(['mail','user'=> function ($query) {
-                         $query->with('unit');
-                     },'unit','user2'])
+                         $query->withTrashed()->with('unit');
+                     },'unit'])
+                ->with(['user2' => function ($query){
+                        $query->withTrashed();
+                    }])
                 ->get();
         return $recibidos;
     }
@@ -141,8 +144,11 @@ class ReportecorrespondenciaController extends Controller
         $pendientes = Log::where('user_id2',$request->user()->id)
                 ->whereIN('estado',['ACEPTADO','EN PROCESO'])
                 ->with(['mail','user'=> function ($query) {
-                         $query->with('unit');
-                     },'unit','user2'])
+                         $query->withTrashed()->with('unit');
+                     },'unit'])
+                ->with(['user2' => function ($query){
+                        $query->withTrashed();
+                    }])
                  ->orderBy('estado','asc')
                  ->orderBy('updated_at','desc')
                 //->orderByRaw("estado ASC, updated_at DESC")
@@ -155,8 +161,11 @@ class ReportecorrespondenciaController extends Controller
                 ->whereDate('fecha','<=',$request->fecha2)
                 ->whereIN('estado',['ARCHIVADO'])
                 ->with(['mail','user'=> function ($query) {
-                         $query->with('unit');
-                     },'unit','user2'])
+                         $query->withTrashed()->with('unit');
+                     },'unit'])
+                ->with(['user2' => function ($query){
+                        $query->withTrashed();
+                    }])
                 ->get();
         return $archivados;
     }
